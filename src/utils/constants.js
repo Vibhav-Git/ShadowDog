@@ -1,0 +1,20 @@
+
+const ALL_EVENT_CODES = {
+    // PLAYER EVENTS
+    MOVE_UP :  101, 
+    MOVE_DOWN : 201,
+    MOVE_LEFT : 301,
+    MOVE_RIGHT : 401,
+
+    // GAME EVENTS
+    PAUSE : 555,
+}
+
+
+export const KEYBOARD_INPUTS = {
+    ArrowUp :  ALL_EVENT_CODES.MOVE_UP, 
+    ArrowDown : ALL_EVENT_CODES.MOVE_DOWN,
+    ArrowLeft : ALL_EVENT_CODES.MOVE_LEFT,
+    ArrowRight : ALL_EVENT_CODES.MOVE_RIGHT,
+    Escape : ALL_EVENT_CODES.PAUSE,
+}
