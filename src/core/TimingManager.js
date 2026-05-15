@@ -9,6 +9,8 @@ export default class TimingManager {
     start() {
         if(this.running)    return;
         this.running = true;
+
+        this.game.setUp();
         requestAnimationFrame(this.run);
     }
 

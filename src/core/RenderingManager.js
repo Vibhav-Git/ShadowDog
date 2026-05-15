@@ -5,6 +5,9 @@ export default class RenderingManager{
     }
 
     render(game) {
-        this.ctx.drawImage(game.assets.getImage("player"), 0, 0);
+        const player = game.player.getRenderingValues();
+
+        this.ctx.clearRect(0, 0, game.gameWidth, game.gameHeight);
+        this.ctx.drawImage(player.img, player.fx * player.w, player.fy * player.h, player.w, player.h, player.x, player.y, player.w, player.h);
     }
 }

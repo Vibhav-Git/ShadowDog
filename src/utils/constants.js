@@ -18,3 +18,23 @@ export const KEYBOARD_INPUTS = {
     ArrowRight : ALL_EVENT_CODES.MOVE_RIGHT,
     Escape : ALL_EVENT_CODES.PAUSE,
 }
+
+const PLAYER_STATES = {
+    IDLE : 0,
+    JUMP : 1,
+    FALL : 2,
+    RUN : 3,
+}
+
+export const GAME_BASE_SETUP = {
+    GROUND_OFFSET : -200,
+    PLAYER_STARTING_X : 200,
+    PLAYER_STARTING_STATE : PLAYER_STATES.IDLE,
+    PLAYER_SPRITESHEET : {
+        WIDTH : 1204,
+        HEIGHT : 913,
+        MAX_X_FRAMES : 12,
+        MAX_Y_FRAMES : 10,
+        FPS : 20,
+    }
+}

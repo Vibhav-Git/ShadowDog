@@ -1,5 +1,6 @@
 import Player from "../entities/Player.js";
 import InputManager from "./InputManager.js";
+import { GAME_BASE_SETUP } from "../utils/constants.js";
 
 export default class GameManager{
     constructor(assets, gameWidth, gameHeight){
@@ -7,12 +8,17 @@ export default class GameManager{
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
 
+        this.groundLevel = gameHeight + GAME_BASE_SETUP.GROUND_OFFSET;
+
         this.input = new InputManager();
         this.player = new Player(this.assets.getImage("player"));
-        this.player.setUp();
+    }
+
+    setUp() {
+        this.player.setUp(this.groundLevel);
     }
 
     update(deltaTime) {
-        this.player.update();
+        this.player.update(deltaTime);
     }
 }
