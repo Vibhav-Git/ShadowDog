@@ -1,5 +1,14 @@
+const SCREEN_DIMENSIONS = {
+    width : window.innerWidth,
+    height : window.innerHeight,
+}
 
-const ALL_EVENT_CODES = {
+window.addEventListener("resize", () => {
+    SCREEN_DIMENSIONS.width = window.innerWidth;
+    SCREEN_DIMENSIONS.height =window.innerHeight;
+})
+
+export const ALL_EVENT_CODES = {
     // PLAYER EVENTS
     MOVE_UP :  101, 
     MOVE_DOWN : 201,
@@ -19,11 +28,17 @@ export const KEYBOARD_INPUTS = {
     Escape : ALL_EVENT_CODES.PAUSE,
 }
 
-const PLAYER_STATES = {
+export const PLAYER_STATES = {
     IDLE : 0,
     JUMP : 1,
     FALL : 2,
     RUN : 3,
+    DIZZY : 4,
+    SIT : 5,
+    ROLL : 6,
+    BITE : 7,
+    KO : 8,
+    GET_HIT : 9,
 }
 
 export const GAME_BASE_SETUP = {
@@ -36,5 +51,7 @@ export const GAME_BASE_SETUP = {
         MAX_X_FRAMES : 12,
         MAX_Y_FRAMES : 10,
         FPS : 20,
-    }
+    },
+    GAMEWIDTH : SCREEN_DIMENSIONS.width,
+    GAMEHEIGHT : SCREEN_DIMENSIONS.height,
 }

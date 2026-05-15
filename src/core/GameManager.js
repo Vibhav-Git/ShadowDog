@@ -19,6 +19,6 @@ export default class GameManager{
     }
 
     update(deltaTime) {
-        this.player.update(deltaTime);
+        this.player.update(deltaTime, this.input);
     }
 }
