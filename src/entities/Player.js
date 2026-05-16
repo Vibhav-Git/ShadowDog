@@ -17,7 +17,7 @@ export default class Player {
 
         this.frameX = 0;
         this.frameY = 0;
-        this.maxFrames = 0
+        this.lastFrame = 0
         this.frameCounter = 0;
         this.fps = 0;
         this.frameChangeThreshold = 0;
@@ -41,7 +41,7 @@ export default class Player {
     }
 
     setUp(groundLevel) {
-        this.x = GAME_BASE_SETUP.PLAYER_STARTING_X;
+        this.x = GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.START;
         this.y = groundLevel;
         this.groundLevel = groundLevel;
         this.width = GAME_BASE_SETUP.PLAYER_SPRITESHEET.WIDTH / GAME_BASE_SETUP.PLAYER_SPRITESHEET.MAX_X_FRAMES;
@@ -55,24 +55,32 @@ export default class Player {
         this.x += this.xv * deltaTime;
         this.yv += this.gravity * deltaTime;
         this.y += this.yv * deltaTime;
-
-        this.playerSpeed = this.xv * deltaTime;
+        
 
         if(this.y >= this.groundLevel) {
             this.y = this.groundLevel;
             this.yv = 0;
         }
 
-        if(this.x <= 0) {
-            this.x = 0
-        } else if(this.x + this.width >= GAME_BASE_SETUP.GAMEWIDTH) {
-            this.x = GAME_BASE_SETUP.GAMEWIDTH - this.width;
+        if(this.x >= GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.END) {
+            this.x = GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.END;
+            this.playerSpeed = this.xv;
+        } else if(this.x <= GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.START) {
+            this.x = GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.START; 
         }
+        
+        
+        if (this.xv >= 0) { 
+            this.playerSpeed = this.xv;
+        } else {
+            this.playerSpeed = 0;
+        }
+
 
         this.frameCounter += deltaTime;
         if(this.frameCounter >= this.frameChangeThreshold){
             this.frameCounter -= this.frameChangeThreshold;
-            this.frameX < this.maxFrames ? this.frameX++ : this.frameX = 0;
+            this.frameX < this.lastFrame ? this.frameX++ : this.frameX = 0;
         }  
         this.currentState.handleInputs(input);
     }

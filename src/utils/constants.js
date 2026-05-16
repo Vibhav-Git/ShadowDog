@@ -1,12 +1,3 @@
-const SCREEN_DIMENSIONS = {
-    width : window.innerWidth,
-    height : window.innerHeight,
-}
-
-window.addEventListener("resize", () => {
-    SCREEN_DIMENSIONS.width = window.innerWidth;
-    SCREEN_DIMENSIONS.height =window.innerHeight;
-})
 
 export const ALL_EVENT_CODES = {
     // PLAYER EVENTS
@@ -52,6 +43,8 @@ export const GAME_BASE_SETUP = {
         MAX_Y_FRAMES : 10,
         FPS : 20,
     },
-    GAMEWIDTH : SCREEN_DIMENSIONS.width,
-    GAMEHEIGHT : SCREEN_DIMENSIONS.height,
+    PLAYER_MOVEMENT_BOUNDS : {
+        START : 0,
+        END : 500,
+    }
 }

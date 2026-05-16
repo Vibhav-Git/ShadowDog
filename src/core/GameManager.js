@@ -28,9 +28,7 @@ export default class GameManager{
     }
 
     update(deltaTime) {
-        
-
         this.player.update(deltaTime, this.input);
-        this.background.update(this.gameWidth,this.player.getSpeed());
+        this.background.update(this.gameWidth,this.player.getSpeed(), deltaTime);
     }
 }

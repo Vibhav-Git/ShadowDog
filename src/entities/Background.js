@@ -6,10 +6,10 @@ class Background {
         this.speed = 0;
     }
 
-    moveLayer(gameWidth, gameSpeed) {
+    moveLayer(gameWidth, gameSpeed, deltaTime) {
         this.speed = gameSpeed;
 
-        this.x -= this.speed * this.speedfactor;
+        this.x -= this.speed * this.speedfactor * deltaTime;
 
         if(this.x < -gameWidth) {
             this.x += gameWidth;
@@ -32,9 +32,9 @@ export default class BackgroundManager{
         ]
     }
 
-    update(gameWidth, gameSpeed) {
+    update(gameWidth, gameSpeed, deltaTime) {
         this.layers.forEach(layer => {
-            layer.moveLayer(gameWidth, gameSpeed);
+            layer.moveLayer(gameWidth, gameSpeed, deltaTime);
         })
     }
 }

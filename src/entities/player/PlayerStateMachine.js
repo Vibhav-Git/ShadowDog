@@ -20,13 +20,14 @@ export class Idle extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.IDLE;
-        this.player.maxFrames = 6;
+        this.player.lastFrame = 6;
         this.player.xv = 0;
         this.player.yv = 0;
         this.currentState();
     }
 
     handleInputs(input) {
+        
         if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)) {
             this.player.xDirection = 1;
             this.player.changeState(PLAYER_STATES.RUN);
@@ -49,7 +50,7 @@ export class Jump extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.JUMP;
-        this.player.maxFrames = 6;
+        this.player.lastFrame = 6;
         this.player.yv = -1200;
         this.currentState();
     }
@@ -75,18 +76,18 @@ export class Fall extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.FALL;
-        this.player.maxFrames = 6;
+        this.player.lastFrame = 6;
         this.currentState();
     }
 
     handleInputs(input) {
         if(this.player.y >= this.player.groundLevel)
             this.player.changeState(PLAYER_STATES.IDLE);
-        if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
             this.player.changeState(PLAYER_STATES.ROLL);
-        if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT))
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT))
             this.player.xv = -300; 
-        if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT))
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT))
             this.player.xv = 300;
     }
 }
@@ -99,9 +100,8 @@ export class Run extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.RUN;
-        this.player.maxFrames = 8;
+        this.player.lastFrame = 8;
         this.player.xv = 300 * this.player.xDirection;   // may later change to gamespeed
-        // this.player.yv = 0;
         this.currentState();
     }
 
@@ -132,7 +132,7 @@ export class Dizzy extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.DIZZY;
-        this.player.maxFrames = 10;
+        this.player.lastFrame = 10;
         this.currentState();
     }
 
@@ -149,7 +149,9 @@ export class Sit extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.SIT;
-        this.player.maxFrames = 4;
+        this.player.lastFrame = 4;
+        this.player.xv = 0;
+        this.player.yv = 0;
         this.currentState();
     }
 
@@ -168,13 +170,18 @@ export class Roll extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.ROLL;
-        this.player.maxFrames = 6;
+        this.player.lastFrame = 6;
         this.currentState();
     }
 
     handleInputs(input) {
         if(this.player.y >= this.player.groundLevel)
             this.player.changeState(PLAYER_STATES.IDLE);
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT))
+            this.player.xv = -300; 
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT))
+            this.player.xv = 300;
+
     }
 }
 
@@ -186,7 +193,7 @@ export class Bite extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.BITE;
-        this.player.maxFrames = 6;
+        this.player.lastFrame = 6;
         this.currentState();
     }
 
@@ -203,7 +210,7 @@ export class KO extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.KO;
-        this.player.maxFrames = 11;
+        this.player.lastFrame = 11;
         this.currentState();
     }
 
@@ -221,7 +228,7 @@ export class GetHit extends PlayerState {
 
     setState() {
         this.player.frameY = PLAYER_STATES.GET_HIT;
-        this.player.maxFrames = 3;
+        this.player.lastFrame = 3;
         this.currentState();
     }
 
