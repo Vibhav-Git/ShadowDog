@@ -31,4 +31,13 @@ export default class GameManager{
         this.player.update(deltaTime, this.input);
         this.background.update(this.gameWidth,this.player.getSpeed(), deltaTime);
     }
+
+    getRenderables() {
+        return {
+            gw : this.gameWidth,
+            gh : this.gameHeight,
+            backgroundLayers : this.background.getRenderables(),
+            player : this.player.getRenderables(),
+        }
+    }
 }

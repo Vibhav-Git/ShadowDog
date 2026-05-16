@@ -9,6 +9,8 @@ export default class Player {
         this.y = 0;
         this.groundLevel = 0;
         this.xv = 0;
+        this.xMaxSpeed = GAME_BASE_SETUP.PLAYER_MAX_SPEED;
+        this.speedUpFactor = GAME_BASE_SETUP.PLAYER_SPEED_UP_FACTOR;
         this.xDirection = 0;
         this.yv = 0;
         this.width = 0;
@@ -62,16 +64,17 @@ export default class Player {
             this.yv = 0;
         }
 
-        if(this.x >= GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.END) {
+
+        if(this.x > GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.END) {
             this.x = GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.END;
-            this.playerSpeed = this.xv;
-        } else if(this.x <= GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.START) {
-            this.x = GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.START; 
-        }
-        
-        
-        if (this.xv >= 0) { 
-            this.playerSpeed = this.xv;
+            
+            if(this.xv > 0)
+                this.playerSpeed = this.xv;
+            else 
+                this.playerSpeed = 0;
+        } else if(this.x < GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.START) {
+            this.x = GAME_BASE_SETUP.PLAYER_MOVEMENT_BOUNDS.START;
+            this.playerSpeed = 0;
         } else {
             this.playerSpeed = 0;
         }
@@ -85,7 +88,7 @@ export default class Player {
         this.currentState.handleInputs(input);
     }
 
-    getRenderingValues() {
+    getRenderables() {
         return {
             img : this.playerImage,
             x : this.x,

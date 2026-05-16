@@ -60,10 +60,15 @@ export class Jump extends PlayerState {
             this.player.changeState(PLAYER_STATES.FALL);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
             this.player.changeState(PLAYER_STATES.ROLL);
-        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT))
-            this.player.xv = -300; 
-        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT))
-            this.player.xv = 300;
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)) {
+            this.player.xDirection = -1;
+            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+        }
+             
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)){
+            this.player.xDirection = 1;
+            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+        }
             
     }
 }
@@ -85,10 +90,14 @@ export class Fall extends PlayerState {
             this.player.changeState(PLAYER_STATES.IDLE);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
             this.player.changeState(PLAYER_STATES.ROLL);
-        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT))
-            this.player.xv = -300; 
-        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT))
-            this.player.xv = 300;
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)){
+            this.player.xDirection = -1;
+            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+        }
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)){
+            this.player.xDirection = 1;
+            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+        }
     }
 }
 
@@ -101,7 +110,7 @@ export class Run extends PlayerState {
     setState() {
         this.player.frameY = PLAYER_STATES.RUN;
         this.player.lastFrame = 8;
-        this.player.xv = 300 * this.player.xDirection;   // may later change to gamespeed
+        this.player.xv = this.player.xMaxSpeed * this.player.xDirection;   // may later change to gamespeed
         this.currentState();
     }
 
@@ -109,11 +118,11 @@ export class Run extends PlayerState {
     
         if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)) {
             this.player.xDirection = 1;
-            this.player.xv = 300 * this.player.xDirection;
+            this.player.xv = this.player.xMaxSpeed * this.player.xDirection;
 
         } else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)) {
             this.player.xDirection = -1;
-            this.player.xv = 300 * this.player.xDirection;
+            this.player.xv = this.player.xMaxSpeed * this.player.xDirection;
         } else {
             this.player.changeState(PLAYER_STATES.IDLE);
         }
@@ -174,13 +183,18 @@ export class Roll extends PlayerState {
         this.currentState();
     }
 
+
     handleInputs(input) {
         if(this.player.y >= this.player.groundLevel)
             this.player.changeState(PLAYER_STATES.IDLE);
-        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT))
-            this.player.xv = -300; 
-        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT))
-            this.player.xv = 300;
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)){
+            this.player.xDirection = -1;
+            this.player.xv = this.player.xDirection * this.player.xMaxSpeed * this.player.speedUpFactor;
+        }
+        else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)){
+            this.player.xDirection = 1;
+            this.player.xv = this.player.xDirection * this.player.xMaxSpeed * this.player.speedUpFactor;
+        }
 
     }
 }

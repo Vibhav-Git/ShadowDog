@@ -46,5 +46,7 @@ export const GAME_BASE_SETUP = {
     PLAYER_MOVEMENT_BOUNDS : {
         START : 0,
         END : 500,
-    }
+    },
+    PLAYER_MAX_SPEED : 300,
+    PLAYER_SPEED_UP_FACTOR : 3,
 }

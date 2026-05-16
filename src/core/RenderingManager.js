@@ -5,14 +5,43 @@ export default class RenderingManager{
     }
 
     render(game) {
-        const player = game.player.getRenderingValues();
 
-        this.ctx.clearRect(0, 0, game.gameWidth, game.gameHeight);
+        
+        const renderables = game.getRenderables();
 
-        game.background.layers.forEach(layer => {
-            this.ctx.drawImage(layer.image, layer.x, 0, game.gameWidth, game.gameHeight);
-            this.ctx.drawImage(layer.image, layer.x + game.gameWidth, 0, game.gameWidth, game.gameHeight);
+        this.ctx.clearRect(0, 0, renderables.gw, renderables.gh);
+
+
+        renderables.backgroundLayers.forEach(layer => {
+            this.ctx.drawImage(
+                layer.image, 
+                layer.x, 0, 
+                renderables.gw, 
+                renderables.gh
+            );
+
+            this.ctx.drawImage(
+                layer.image, 
+                layer.x + renderables.gw, 
+                0, 
+                renderables.gw, 
+                renderables.gh
+            );
         });
-        this.ctx.drawImage(player.img, player.fx * player.w, player.fy * player.h, player.w, player.h, player.x, player.y, player.w, player.h);
+
+        this.ctx.drawImage(
+            renderables.player.img, 
+            renderables.player.fx * renderables.player.w, 
+            renderables.player.fy * renderables.player.h, 
+            renderables.player.w, 
+            renderables.player.h, 
+            renderables.player.x, 
+            renderables.player.y, 
+            renderables.player.w, 
+            renderables.player.h
+        );
+
+
+
     }
 }

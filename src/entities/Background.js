@@ -15,6 +15,13 @@ class Background {
             this.x += gameWidth;
         }
     }
+
+    getRenderables() {
+        return  {
+            image : this.image,
+            x : this.x,
+        }
+    }
 }
 
 
@@ -29,13 +36,24 @@ export default class BackgroundManager{
             new Background(layer3, 0.6),
             new Background(layer4, 0.8),
             new Background(layer5, 1),
-        ]
+        ];
     }
 
     update(gameWidth, gameSpeed, deltaTime) {
         this.layers.forEach(layer => {
             layer.moveLayer(gameWidth, gameSpeed, deltaTime);
-        })
+        });
     }
+
+
+    getRenderables() {
+        const backgroundLayers = [];
+        this.layers.forEach(layer => {
+            backgroundLayers.push(layer.getRenderables())
+        });
+
+        return backgroundLayers;
+    }
+
 }
 
