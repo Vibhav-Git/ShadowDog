@@ -18,6 +18,11 @@ export default class AssetManager {
     async loadAll() {
         await Promise.all([
             this.loadImage("player", "../../assets/images/player.png"),
+            this.loadImage("layer1", "../../assets/images/layer-1.png"),
+            this.loadImage("layer2", "../../assets/images/layer-2.png"),
+            this.loadImage("layer3", "../../assets/images/layer-3.png"),
+            this.loadImage("layer4", "../../assets/images/layer-4.png"),
+            this.loadImage("layer5", "../../assets/images/layer-5.png"),
         ]);
     }
 

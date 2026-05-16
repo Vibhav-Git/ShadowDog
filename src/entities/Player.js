@@ -35,6 +35,9 @@ export default class Player {
             new GetHit(this),
         ];
         this.currentState = 0;
+
+
+        this.playerSpeed = 0;
     }
 
     setUp(groundLevel) {
@@ -52,6 +55,8 @@ export default class Player {
         this.x += this.xv * deltaTime;
         this.yv += this.gravity * deltaTime;
         this.y += this.yv * deltaTime;
+
+        this.playerSpeed = this.xv * deltaTime;
 
         if(this.y >= this.groundLevel) {
             this.y = this.groundLevel;
@@ -89,6 +94,11 @@ export default class Player {
         this.currentState = this.states[newState];
         this.currentState.setState();
         this.frameX = 0;
+    }
+
+
+    getSpeed() {
+        return this.playerSpeed;
     }
 }
 
