@@ -1,21 +1,28 @@
 import { ALL_EVENT_CODES, PLAYER_STATES } from "../../utils/constants.js";
 
 class PlayerState {
-    constructor(state) {
+    constructor(state, player) {
         this.state = state;
+        this.player = player;
     }
 
     currentState() {
         console.log(this.state);
     }
+
+    setDirection(newDirection) {
+        this.player.xDirection = newDirection;
+    }
+
+    setSpeed(speedMultiplier = 1) {
+        this.player.xv = this.player.xDirection * this.player.xMaxSpeed * speedMultiplier;
+    }
 }
 
-// Working on the following state
 
 export class Idle extends PlayerState {
     constructor(player) {
-        super("IDLE");
-        this.player = player;
+        super("IDLE", player);
     }
 
     setState() {
@@ -29,10 +36,10 @@ export class Idle extends PlayerState {
     handleInputs(input) {
         
         if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)) {
-            this.player.xDirection = 1;
+            super.setDirection(1);
             this.player.changeState(PLAYER_STATES.RUN);
         } else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)) {
-            this.player.xDirection = -1;
+            super.setDirection(-1);
             this.player.changeState(PLAYER_STATES.RUN);
         } else if(input.hasCode(ALL_EVENT_CODES.MOVE_UP))
             this.player.changeState(PLAYER_STATES.JUMP);
@@ -44,8 +51,7 @@ export class Idle extends PlayerState {
 
 export class Jump extends PlayerState {
     constructor(player) {
-        super("JUMP");
-        this.player = player;
+        super("JUMP", player);
     }
 
     setState() {
@@ -61,13 +67,13 @@ export class Jump extends PlayerState {
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
             this.player.changeState(PLAYER_STATES.ROLL);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)) {
-            this.player.xDirection = -1;
-            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+            super.setDirection(-1);
+            super.setSpeed();
         }
              
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)){
-            this.player.xDirection = 1;
-            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+            super.setDirection(1);
+            super.setSpeed();
         }
             
     }
@@ -75,8 +81,7 @@ export class Jump extends PlayerState {
 
 export class Fall extends PlayerState {
     constructor(player) {
-        super("FALL");
-        this.player = player;
+        super("FALL", player);
     }
 
     setState() {
@@ -91,38 +96,37 @@ export class Fall extends PlayerState {
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
             this.player.changeState(PLAYER_STATES.ROLL);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)){
-            this.player.xDirection = -1;
-            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+            super.setDirection(-1);
+            super.setSpeed();
         }
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)){
-            this.player.xDirection = 1;
-            this.player.xv = this.player.xDirection * this.player.xMaxSpeed;
+            super.setDirection(1);
+            super.setSpeed();
         }
     }
 }
 
 export class Run extends PlayerState {
     constructor(player) {
-        super("RUN");
-        this.player = player;
+        super("RUN", player);
     }
 
     setState() {
         this.player.frameY = PLAYER_STATES.RUN;
         this.player.lastFrame = 8;
-        this.player.xv = this.player.xMaxSpeed * this.player.xDirection;   // may later change to gamespeed
+        super.setSpeed();   // may later change to gamespeed
         this.currentState();
     }
 
     handleInputs(input) {
     
         if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)) {
-            this.player.xDirection = 1;
-            this.player.xv = this.player.xMaxSpeed * this.player.xDirection;
+            super.setDirection(1);
+            super.setSpeed();
 
         } else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)) {
-            this.player.xDirection = -1;
-            this.player.xv = this.player.xMaxSpeed * this.player.xDirection;
+            super.setDirection(-1);
+            super.setSpeed();
         } else {
             this.player.changeState(PLAYER_STATES.IDLE);
         }
@@ -135,8 +139,7 @@ export class Run extends PlayerState {
 
 export class Dizzy extends PlayerState {
     constructor(player) {
-        super("DIZZY");
-        this.player = player;
+        super("DIZZY", player);
     }
 
     setState() {
@@ -152,8 +155,7 @@ export class Dizzy extends PlayerState {
 
 export class Sit extends PlayerState {
     constructor(player) {
-        super("SIT");
-        this.player = player;
+        super("SIT", player);
     }
 
     setState() {
@@ -173,8 +175,7 @@ export class Sit extends PlayerState {
 
 export class Roll extends PlayerState {
     constructor(player) {
-        super("ROLL");
-        this.player = player;
+        super("ROLL", player);
     }
 
     setState() {
@@ -188,12 +189,12 @@ export class Roll extends PlayerState {
         if(this.player.y >= this.player.groundLevel)
             this.player.changeState(PLAYER_STATES.IDLE);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)){
-            this.player.xDirection = -1;
-            this.player.xv = this.player.xDirection * this.player.xMaxSpeed * this.player.speedUpFactor;
+            super.setDirection(-1);
+            super.setSpeed(this.player.speedUpFactor);
         }
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_RIGHT)){
-            this.player.xDirection = 1;
-            this.player.xv = this.player.xDirection * this.player.xMaxSpeed * this.player.speedUpFactor;
+            super.setDirection(1);
+            super.setSpeed(this.player.speedUpFactor);
         }
 
     }
@@ -201,8 +202,7 @@ export class Roll extends PlayerState {
 
 export class Bite extends PlayerState {
     constructor(player) {
-        super("Bite");
-        this.player = player;
+        super("BITE", player);
     }
 
     setState() {
@@ -218,8 +218,7 @@ export class Bite extends PlayerState {
 
 export class KO extends PlayerState {
     constructor(player) {
-        super("KO");
-        this.player = player;
+        super("KO", player);
     }
 
     setState() {
@@ -236,8 +235,7 @@ export class KO extends PlayerState {
 
 export class GetHit extends PlayerState {
     constructor(player) {
-        super("GET_HIT");
-        this.player = player;
+        super("GET_HIT", player);
     }
 
     setState() {
