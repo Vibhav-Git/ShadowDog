@@ -42,6 +42,34 @@ export default class RenderingManager{
         );
 
 
+        // this.ctx.drawImage(
+        //     renderables.enemy.img, 
+        //     renderables.enemy.fx * renderables.enemy.w, 
+        //     renderables.enemy.fy * renderables.enemy.h, 
+        //     renderables.enemy.w, 
+        //     renderables.enemy.h, 
+        //     renderables.enemy.x, 
+        //     renderables.enemy.y, 
+        //     renderables.enemy.w, 
+        //     renderables.enemy.h
+        // );
+
+
+        renderables.enemy.forEach(en => {
+            this.ctx.drawImage(
+                en.img,
+                en.fx * en.sw,
+                en.fy * en.sh,
+                en.sw,
+                en.sh,
+                en.x,
+                en.y,
+                en.w,
+                en.h,
+            );
+        })
+
+
 
     }
 }
