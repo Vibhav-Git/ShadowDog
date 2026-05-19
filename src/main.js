@@ -3,7 +3,6 @@ import GameManager from "./core/GameManager.js";
 import RenderingManager from "./core/RenderingManager.js";
 import ScreenManager from "./core/ScreenManager.js";
 import TimingManager from "./core/TimingManager.js";
-import { GAME_BASE_SETUP } from "./utils/constants.js";
 
 
 window.addEventListener("load", async () => {

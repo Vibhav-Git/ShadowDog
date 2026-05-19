@@ -23,7 +23,11 @@ export default class GameManager{
             this.assets.getImage("layer5")]
         );
 
-        this.enemyManager = new EnemyManager([this.assets.getImage("zombie")]);
+        this.enemyManager = new EnemyManager([
+            this.assets.getImage("zombie"), 
+            this.assets.getImage("plant"),
+            this.assets.getImage("spider"),
+        ]);
     }
 
     setUp() {

@@ -91,7 +91,7 @@ export class Fall extends PlayerState {
     }
 
     handleInputs(input) {
-        if(this.player.y >= this.player.groundLevel)
+        if(this.player.y >= this.player.groundLevel - this.player.height)
             this.player.changeState(PLAYER_STATES.IDLE);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
             this.player.changeState(PLAYER_STATES.ROLL);
@@ -186,7 +186,7 @@ export class Roll extends PlayerState {
 
 
     handleInputs(input) {
-        if(this.player.y >= this.player.groundLevel)
+        if(this.player.y >= this.player.groundLevel - this.player.height)
             this.player.changeState(PLAYER_STATES.IDLE);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_LEFT)){
             super.setDirection(-1);

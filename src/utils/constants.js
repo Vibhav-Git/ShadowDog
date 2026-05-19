@@ -37,20 +37,6 @@ export const GAME_BASE_SETUP = {
     GROUND_OFFSET_MULTIPLIER : 84,
 }
 
-export const ENEMY_SETUP = {
-    ZOMBIE : {
-        SCALE_MULTIPLIER : 22,
-        SPRITESHEET : {
-            WIDTH : 2336,
-            HEIGHT : 410,
-            MAX_X_FRAMES : 8,
-            MAX_Y_FRAMES : 1,
-            FPS : 20,
-            SCALE : 0.35,
-        },
-    },
-}
-
 
 export const PLAYER_SETUP = {
     BASE_X : 0,
@@ -65,5 +51,46 @@ export const PLAYER_SETUP = {
     },
     MOVEMENT_BOUNDS_MULTIPLIER : 40,
     MAX_SPEED : 300,
-    SPEED_UP_FACTOR : 3,
+    SPEED_UP_FACTOR : 2,
+}
+
+
+
+export const ENEMY_SETUP = {
+    ZOMBIE : {
+        SCALE_MULTIPLIER : 22,
+        BASE_SPEED : 35,
+        SPRITESHEET : {
+            WIDTH : 2336,
+            HEIGHT : 410,
+            MAX_X_FRAMES : 8,
+            MAX_Y_FRAMES : 1,
+            FPS : 5,
+        },
+    },
+
+    PLANT : {
+        SCALE_MULTIPLIER : 9,
+        BASE_SPEED : 0,
+        SPRITESHEET : {
+            WIDTH : 120,
+            HEIGHT : 87,
+            MAX_X_FRAMES : 2,
+            MAX_Y_FRAMES : 1,
+            FPS : 8,
+        },
+    },
+
+    SPIDER : {
+        SCALE_MULTIPLIER : 25,
+        BASE_SPEED : 0,
+        BASE_Y_SPEED : 100,
+        SPRITESHEET : {
+            WIDTH : 720,
+            HEIGHT : 144,
+            MAX_X_FRAMES : 6,
+            MAX_Y_FRAMES : 1,
+            FPS : 8,
+        },
+    },
 }

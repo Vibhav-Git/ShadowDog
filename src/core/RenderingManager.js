@@ -43,7 +43,14 @@ export default class RenderingManager{
 
 
         renderables.enemy.forEach(en => {
-            this.ctx.drawImage(
+
+            if(en.type == "spider") {
+                this.ctx.beginPath();
+                this.ctx.moveTo(en.x + en.w / 2, 0);
+                this.ctx.lineTo(en.x + en.w / 2, en.y + en.h/2);
+                this.ctx.stroke();
+
+                this.ctx.drawImage(
                 en.img,
                 en.fx * en.sw,
                 en.fy * en.sh,
@@ -54,6 +61,21 @@ export default class RenderingManager{
                 en.w,
                 en.h,
             );
+
+            } else {
+                this.ctx.drawImage(
+                en.img,
+                en.fx * en.sw,
+                en.fy * en.sh,
+                en.sw,
+                en.sh,
+                en.x,
+                en.y,
+                en.w,
+                en.h,
+            );
+            }
+            
         })
 
 
