@@ -62,7 +62,7 @@ export class Jump extends PlayerState {
     }
 
     handleInputs(input) {
-        if(this.player.yv> 0)
+        if(this.player.yv >= 0)
             this.player.changeState(PLAYER_STATES.FALL);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
             this.player.changeState(PLAYER_STATES.ROLL);

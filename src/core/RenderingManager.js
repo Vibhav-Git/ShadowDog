@@ -31,28 +31,15 @@ export default class RenderingManager{
 
         this.ctx.drawImage(
             renderables.player.img, 
-            renderables.player.fx * renderables.player.w, 
-            renderables.player.fy * renderables.player.h, 
-            renderables.player.w, 
-            renderables.player.h, 
+            renderables.player.fx * renderables.player.sw, 
+            renderables.player.fy * renderables.player.sh, 
+            renderables.player.sw, 
+            renderables.player.sh, 
             renderables.player.x, 
             renderables.player.y, 
             renderables.player.w, 
             renderables.player.h
         );
-
-
-        // this.ctx.drawImage(
-        //     renderables.enemy.img, 
-        //     renderables.enemy.fx * renderables.enemy.w, 
-        //     renderables.enemy.fy * renderables.enemy.h, 
-        //     renderables.enemy.w, 
-        //     renderables.enemy.h, 
-        //     renderables.enemy.x, 
-        //     renderables.enemy.y, 
-        //     renderables.enemy.w, 
-        //     renderables.enemy.h
-        // );
 
 
         renderables.enemy.forEach(en => {
