@@ -32,21 +32,65 @@ export const PLAYER_STATES = {
     GET_HIT : 9,
 }
 
+
 export const GAME_BASE_SETUP = {
-    GROUND_OFFSET : -200,
-    PLAYER_STARTING_X : 200,
-    PLAYER_STARTING_STATE : PLAYER_STATES.IDLE,
-    PLAYER_SPRITESHEET : {
+    GROUND_OFFSET_MULTIPLIER : 84,
+}
+
+
+export const PLAYER_SETUP = {
+    BASE_X : 0,
+    BASE_STATE : PLAYER_STATES.IDLE,
+    SCALE_MULTIPLIER : 15,
+    SPRITESHEET : {
         WIDTH : 1204,
         HEIGHT : 913,
         MAX_X_FRAMES : 12,
         MAX_Y_FRAMES : 10,
         FPS : 20,
     },
-    PLAYER_MOVEMENT_BOUNDS : {
-        START : 0,
-        END : 500,
+    MOVEMENT_BOUNDS_MULTIPLIER : 40,
+    MAX_SPEED : 300,
+    SPEED_UP_FACTOR : 2,
+}
+
+
+
+export const ENEMY_SETUP = {
+    ZOMBIE : {
+        SCALE_MULTIPLIER : 22,
+        BASE_SPEED : 35,
+        SPRITESHEET : {
+            WIDTH : 2336,
+            HEIGHT : 410,
+            MAX_X_FRAMES : 8,
+            MAX_Y_FRAMES : 1,
+            FPS : 5,
+        },
     },
-    PLAYER_MAX_SPEED : 300,
-    PLAYER_SPEED_UP_FACTOR : 3,
+
+    PLANT : {
+        SCALE_MULTIPLIER : 9,
+        BASE_SPEED : 0,
+        SPRITESHEET : {
+            WIDTH : 120,
+            HEIGHT : 87,
+            MAX_X_FRAMES : 2,
+            MAX_Y_FRAMES : 1,
+            FPS : 8,
+        },
+    },
+
+    SPIDER : {
+        SCALE_MULTIPLIER : 25,
+        BASE_SPEED : 0,
+        BASE_Y_SPEED : 100,
+        SPRITESHEET : {
+            WIDTH : 720,
+            HEIGHT : 144,
+            MAX_X_FRAMES : 6,
+            MAX_Y_FRAMES : 1,
+            FPS : 8,
+        },
+    },
 }

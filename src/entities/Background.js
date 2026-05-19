@@ -1,3 +1,5 @@
+import { GAME_BASE_SETUP } from "../utils/constants.js";
+
 class Background {
     constructor(backgroundImage, speedfactor) {
         this.image = backgroundImage;
@@ -11,7 +13,7 @@ class Background {
 
         this.x -= this.speed * this.speedfactor * deltaTime;
 
-        if(this.x < -gameWidth) {
+        if(this.x <= -gameWidth) {
             this.x += gameWidth;
         }
     }
@@ -29,7 +31,7 @@ class Background {
 
 
 export default class BackgroundManager{
-    constructor(layer1, layer2, layer3, layer4, layer5) {
+    constructor([layer1, layer2, layer3, layer4, layer5]) {
         this.layers = [
             new Background(layer1, 0.2),
             new Background(layer2, 0.4),

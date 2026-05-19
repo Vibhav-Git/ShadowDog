@@ -31,15 +31,52 @@ export default class RenderingManager{
 
         this.ctx.drawImage(
             renderables.player.img, 
-            renderables.player.fx * renderables.player.w, 
-            renderables.player.fy * renderables.player.h, 
-            renderables.player.w, 
-            renderables.player.h, 
+            renderables.player.fx * renderables.player.sw, 
+            renderables.player.fy * renderables.player.sh, 
+            renderables.player.sw, 
+            renderables.player.sh, 
             renderables.player.x, 
             renderables.player.y, 
             renderables.player.w, 
             renderables.player.h
         );
+
+
+        renderables.enemy.forEach(en => {
+
+            if(en.type == "spider") {
+                this.ctx.beginPath();
+                this.ctx.moveTo(en.x + en.w / 2, 0);
+                this.ctx.lineTo(en.x + en.w / 2, en.y + en.h/2);
+                this.ctx.stroke();
+
+                this.ctx.drawImage(
+                en.img,
+                en.fx * en.sw,
+                en.fy * en.sh,
+                en.sw,
+                en.sh,
+                en.x,
+                en.y,
+                en.w,
+                en.h,
+            );
+
+            } else {
+                this.ctx.drawImage(
+                en.img,
+                en.fx * en.sw,
+                en.fy * en.sh,
+                en.sw,
+                en.sh,
+                en.x,
+                en.y,
+                en.w,
+                en.h,
+            );
+            }
+            
+        })
 
 
 
