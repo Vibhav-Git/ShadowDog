@@ -22,10 +22,13 @@ export default class TimingManager {
         const deltaTime = (timestamp - this.lastTime) / 1000;
         this.lastTime = timestamp;
 
-        this.game.update(deltaTime);
+        this.running = this.game.update(deltaTime);
         this.renderer.render(this.game);
 
-        requestAnimationFrame(this.run);
+        if(this.running)
+            requestAnimationFrame(this.run);
+        else 
+            this.stop();
     }
 
 

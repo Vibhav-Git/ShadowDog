@@ -1,4 +1,5 @@
 import { PLAYER_SETUP, PLAYER_STATES } from "../utils/constants.js";
+import { Dust } from "./player/particleSystem.js";
 import { Idle, Jump, Fall, Run, Dizzy, Sit, Roll, Bite, KO, GetHit } from "./player/PlayerStateMachine.js";
 
 export default class Player {
@@ -53,6 +54,15 @@ export default class Player {
             new GetHit(this),
         ];
         this.currentState = 0;
+
+        this.playerLives = 5;
+
+        this.alive = false;
+
+
+
+        // particlesTrail
+        this.particleTrail = [];
     }
 
     setUp(groundLevel, scalingFactor) {
@@ -92,6 +102,7 @@ export default class Player {
         this.fps = PLAYER_SETUP.SPRITESHEET.FPS;
         this.frameChangeThreshold = 1 / this.fps;
         this.changeState(PLAYER_SETUP.BASE_STATE);
+        this.alive = true;
     }
 
     recalculateDimensions(scalingFactor) {
@@ -144,13 +155,28 @@ export default class Player {
         if(this.frameCounter >= this.frameChangeThreshold){
             this.frameCounter -= this.frameChangeThreshold;
             this.frameX < this.lastFrame ? this.frameX++ : this.frameX = 0;
+
+            this.particleTrail.push(new Dust(this.x, this.y));
         } 
         
         // update state
         this.currentState.handleInputs(input);
+
+        this.particleTrail.forEach(particle => {
+            particle.update();
+        });
+
+        this.particleTrail = this.particleTrail.filter(part => !part.markedForDeletion);
     }
 
+
     getRenderables() {
+
+        const particleRenderable = [];
+        this.particleTrail.forEach(particle => {
+            particleRenderable.push(particle.getRenderables());
+        });
+
         return {
             img : this.playerImage,
             x : this.x,
@@ -161,6 +187,9 @@ export default class Player {
             fy : this.frameY,
             sw : this.spriteWidth,
             sh : this.spriteHeight,
+            plv : this.playerLives,
+            alive : this.alive,
+            particles : particleRenderable,
         }
     }
 
@@ -174,6 +203,17 @@ export default class Player {
 
     getSpeed() {
         return this.playerSpeed;
+    }
+
+
+    legalHit() {
+        if(this.currentState != this.states[PLAYER_STATES.ROLL]) {
+            -- this.playerLives;
+            this.changeState(PLAYER_STATES.GET_HIT);
+
+            return 0;
+        }        
+        return 1;
     }
 }
 

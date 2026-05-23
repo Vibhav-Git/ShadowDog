@@ -1,13 +1,16 @@
+// import { collisionManager } from "../core/CollisionManager.js";
 import { ENEMY_SETUP } from "../utils/constants.js";
 
 export default class EnemyManager {
     constructor(enemyImages) {
-        this.enemyList =[Zombie, Plant, Spider];
+        this.enemyList =[Zombie, Plant, Spider, Fly];
         this.activeEnemies = [];
         this.enemyImages = enemyImages;
 
         this.enemySpawnCounter = 0;
         this.enemySpawnThreshold = 2;       // 1 sec
+
+        // this.enemiesKilled = 0;
         
     }
 
@@ -21,6 +24,11 @@ export default class EnemyManager {
 
         this.activeEnemies.forEach(en => {
             en.update(deltaTime, groundLevel, scalingFactor, gameSpeed);
+            
+            // if(collisionManager(player, en)) {
+            //     en.markedForDeletion = true;
+            //     this.enemiesKilled ++;
+            // }
         })
 
         this.activeEnemies = this.activeEnemies.filter(en => !en.markedForDeletion);
@@ -29,6 +37,7 @@ export default class EnemyManager {
     spawnNewEnemy(groundLevel, scalingFactor, gameWidth) {
 
         const randomSelector = Math.floor(Math.random() * this.enemyList.length);
+        // const randomSelector = 3;
         const newEnemy = this.enemyList[randomSelector];
         const nextEnemy = new newEnemy(this.enemyImages[randomSelector])
         nextEnemy.setUp(groundLevel, scalingFactor, gameWidth);
@@ -43,6 +52,10 @@ export default class EnemyManager {
             enemiesRenderData.push(en.getRenderables());
         })
         return enemiesRenderData;
+    }
+
+    getScore() {
+        return this.enemiesKilled;
     }
 }
 
@@ -236,7 +249,7 @@ class Spider extends Enemy {
         this.xv = ENEMY_SETUP.SPIDER.BASE_SPEED;
         this.yv = ENEMY_SETUP.SPIDER.BASE_Y_SPEED;
         this.x = gameWidth;
-        this.y = 0;
+        this.y = 200;
     }
 
      recalculateDimensions(scalingFactor) {
@@ -267,6 +280,69 @@ class Spider extends Enemy {
         }
         if(this.y <= -this.height)
             this.markedForDeletion = true;
+        
+        if(this.x < - this.width)
+            this.markedForDeletion = true;
+    }
+}
+
+
+
+class Fly extends Enemy {
+    constructor(image) {
+        super();
+        this.image = image;
+    }
+
+    setUp(groundLevel, scalingFactor, gameWidth) {
+        this.scaleMultiplier = ENEMY_SETUP.FLY.SCALE_MULTIPLIER;
+        this.scaleLastValue = scalingFactor;
+        
+        this.lastFrame = ENEMY_SETUP.FLY.SPRITESHEET.MAX_X_FRAMES - 1;
+        this.spriteWidth = (ENEMY_SETUP.FLY.SPRITESHEET.WIDTH / ENEMY_SETUP.FLY.SPRITESHEET.MAX_X_FRAMES);
+        this.spriteHeight = (ENEMY_SETUP.FLY.SPRITESHEET.HEIGHT / ENEMY_SETUP.FLY.SPRITESHEET.MAX_Y_FRAMES);
+
+        this.ratio = this.spriteWidth / this.spriteHeight;
+
+        this.height = scalingFactor * this.scaleMultiplier;
+        this.width = this.ratio * this.height;
+        
+        this.fps = ENEMY_SETUP.FLY.SPRITESHEET.FPS;
+        this.FrameThreshold = 1 / this.fps;
+
+        this.xv = - ENEMY_SETUP.FLY.BASE_SPEED;
+        this.yv = Math.floor(Math.random() * 3 - 1) * ENEMY_SETUP.FLY.BASE_Y_SPEED;
+        this.x = gameWidth;
+        this.y = 200;
+    }
+
+     recalculateDimensions(scalingFactor) {
+            this.height = scalingFactor * this.scaleMultiplier;
+            this.width = this.ratio * this.height;
+            this.scaleLastValue = scalingFactor;
+        }
+
+    update(deltaTime, groundLevel, scalingFactor, gameSpeed) {
+
+        if(this.scaleLastValue !== scalingFactor) {
+            this.groundLevel = groundLevel;
+            this.recalculateDimensions(scalingFactor);
+            this.y = groundLevel - this.height;
+        }
+        this.frameTimer += deltaTime;
+
+        if(this.frameTimer >= this.FrameThreshold) {
+            this.frameTimer -= this.FrameThreshold;
+            this.frameX < this.lastFrame ? this.frameX++ : this.frameX = 0;
+        }
+    
+        this.x += (this.xv - gameSpeed ) *  deltaTime;
+        this.y += this.yv * deltaTime;
+
+        if(this.y <= 0 )
+            this.yv *= -1;
+        else if(this.y > groundLevel - this.height)
+            this.yv *= -1;
         
         if(this.x < - this.width)
             this.markedForDeletion = true;

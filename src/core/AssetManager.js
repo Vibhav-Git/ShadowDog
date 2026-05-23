@@ -26,6 +26,8 @@ export default class AssetManager {
             this.loadImage("zombie", "../../assets/images/enemy_zombie.png"),
             this.loadImage("plant", "../../assets/images/enemy_plant.png"),
             this.loadImage("spider", "../../assets/images/enemy_spider.png"),
+            this.loadImage("fly", "../../assets/images/enemy_fly.png"),
+            this.loadImage("lives", "../../assets/images/heart.png"),
         ]);
     }
 

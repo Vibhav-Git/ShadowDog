@@ -1,4 +1,4 @@
-import { ALL_EVENT_CODES, PLAYER_STATES } from "../../utils/constants.js";
+import { ALL_EVENT_CODES, PLAYER_SETUP, PLAYER_STATES } from "../../utils/constants.js";
 
 class PlayerState {
     constructor(state, player) {
@@ -17,6 +17,7 @@ class PlayerState {
     setSpeed(speedMultiplier = 1) {
         this.player.xv = this.player.xDirection * this.player.xMaxSpeed * speedMultiplier;
     }
+
 }
 
 
@@ -32,6 +33,10 @@ export class Idle extends PlayerState {
         this.player.yv = 0;
         this.currentState();
     }
+
+    // sustain() {
+
+    // }
 
     handleInputs(input) {
         
@@ -57,11 +62,12 @@ export class Jump extends PlayerState {
     setState() {
         this.player.frameY = PLAYER_STATES.JUMP;
         this.player.lastFrame = 6;
-        this.player.yv = -1200;
+        this.player.yv = -1400;
         this.currentState();
     }
 
     handleInputs(input) {
+
         if(this.player.yv >= 0)
             this.player.changeState(PLAYER_STATES.FALL);
         else if(input.hasCode(ALL_EVENT_CODES.MOVE_DOWN)) 
@@ -145,11 +151,15 @@ export class Dizzy extends PlayerState {
     setState() {
         this.player.frameY = PLAYER_STATES.DIZZY;
         this.player.lastFrame = 10;
+        this.player.xv = 0;
+        this.player.yv = 0;
         this.currentState();
     }
 
     handleInputs(input) {
-        // will implement later
+        if(this.player.frameX >= this.player.lastFrame) {
+            this.player.changeState(PLAYER_STATES.IDLE)
+        }
     }
 }
 
@@ -169,7 +179,7 @@ export class Sit extends PlayerState {
     handleInputs(input) {
         if(!input.hasCode(ALL_EVENT_CODES.MOVE_DOWN))
             this.player.changeState(PLAYER_STATES.IDLE);
-        
+            
     }
 }
 
@@ -181,6 +191,8 @@ export class Roll extends PlayerState {
     setState() {
         this.player.frameY = PLAYER_STATES.ROLL;
         this.player.lastFrame = 6;
+        // this.player.xv = 0;
+        // this.player.yv = 1200;
         this.currentState();
     }
 
@@ -224,11 +236,16 @@ export class KO extends PlayerState {
     setState() {
         this.player.frameY = PLAYER_STATES.KO;
         this.player.lastFrame = 11;
+        this.player.xv = 200;
+        this.yv = 0;
         this.currentState();
     }
 
     handleInputs(input) {
-        // will implement later
+        if(this.player.frameX >= this.player.lastFrame){
+            this.player.xv = 0;
+            this.player.alive = false;
+        }
     }
 }
 
@@ -241,10 +258,18 @@ export class GetHit extends PlayerState {
     setState() {
         this.player.frameY = PLAYER_STATES.GET_HIT;
         this.player.lastFrame = 3;
+        this.player.xv = 0;
+        this.player.yv = 0;
         this.currentState();
     }
 
     handleInputs(input) {
-        // will implement later
+        if(this.player.frameX >= this.player.lastFrame) {
+            if(this.player.playerLives >= 1)
+                this.player.changeState(PLAYER_STATES.DIZZY);
+            else
+                this.player.changeState(PLAYER_STATES.KO);
+        }
+            
     }
 }

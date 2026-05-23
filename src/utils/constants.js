@@ -8,6 +8,7 @@ export const ALL_EVENT_CODES = {
 
     // GAME EVENTS
     PAUSE : 555,
+    DEBUG : 666,
 }
 
 
@@ -17,6 +18,7 @@ export const KEYBOARD_INPUTS = {
     ArrowLeft : ALL_EVENT_CODES.MOVE_LEFT,
     ArrowRight : ALL_EVENT_CODES.MOVE_RIGHT,
     Escape : ALL_EVENT_CODES.PAUSE,
+    d : ALL_EVENT_CODES.DEBUG,
 }
 
 export const PLAYER_STATES = {
@@ -51,7 +53,7 @@ export const PLAYER_SETUP = {
     },
     MOVEMENT_BOUNDS_MULTIPLIER : 40,
     MAX_SPEED : 300,
-    SPEED_UP_FACTOR : 2,
+    SPEED_UP_FACTOR : 2.5,    
 }
 
 
@@ -91,6 +93,20 @@ export const ENEMY_SETUP = {
             MAX_X_FRAMES : 6,
             MAX_Y_FRAMES : 1,
             FPS : 8,
+        },
+    },
+
+
+    FLY : {
+        SCALE_MULTIPLIER : 10,
+        BASE_SPEED : 150,
+        BASE_Y_SPEED : 100,
+        SPRITESHEET : {
+            WIDTH : 360,
+            HEIGHT : 44,
+            MAX_X_FRAMES : 6,
+            MAX_Y_FRAMES : 1,
+            FPS : 20,
         },
     },
 }
